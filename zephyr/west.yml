@@ -1,0 +1,19 @@
+manifest:
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: v4.4.0
+      import: true
+
+    # Verknüpfung deines lokalen UDS-Modul-Ordners:
+    - name: zephyr-uds-server
+      path: modules/lib/uds_server
+      url: file://../uds
+      revision: main
+
+  self:
+    path: uds_app_project
