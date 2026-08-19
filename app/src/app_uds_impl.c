@@ -3,7 +3,7 @@
  * @brief Nucleo-G474RE spezifische UDS Applikations-Implementierung
  */
 
-#include <zephyr/canbus/uds_app_interface.h>
+#include <uds_app_interface.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/logging/log.h>
 #include <string.h>
