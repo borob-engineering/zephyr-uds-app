@@ -7,12 +7,16 @@ manifest:
     - name: zephyr
       remote: zephyrproject-rtos
       revision: v4.4.0
-      import: true
+      import: 
+        name-allowlist:
+          - cmsis_6
+          - cmsis
+          - hal_stm32
 
     # Verknüpfung deines lokalen UDS-Modul-Ordners:
-    - name: zephyr-uds-server
+    - name: uds_server
       path: modules/lib/uds_server
-      url: file://../uds
+      url: /home/borob/zephyr_workspace/uds
       revision: main
 
   self:
