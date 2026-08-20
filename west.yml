@@ -12,6 +12,7 @@ manifest:
           - cmsis_6
           - cmsis
           - hal_stm32
+          - mcuboot
 
     # Verknüpfung deines lokalen UDS-Modul-Ordners:
     - name: uds_server
