@@ -30,28 +30,17 @@ Die Applikation stellt die vollständige Infrastruktur bereit, um Firmware-Updat
 
 ---
 
-## 🛠 Architektur & Zusammenspiel
+## 🛠 Architektur & Schichtenmodell
 
 Die Applikation nutzt die Hardware-Abstraktion von Zephyr RTOS, um maximale Portabilität zwischen verschiedenen Mikrocontrollern zu gewährleisten:
 
-+-------------------------------------------------------+
-|                 Applikationsschicht                   |
-|               (zephyr-uds-app / main.c)               |
-+---------------------------+---------------------------+
-                            |
-         Überschreibt __weak|Implementiert Callbacks
-                            v
-+-------------------------------------------------------+
-|                    UDS Core Engine                    |
-|             (zephyr-uds / Services & Timing)          |
-+---------------------------+---------------------------+
-                            |
-                            | Nutzt ISO-TP API
-                            v
-+-------------------------------------------------------+
-|                 Zephyr Kernel / OS                    |
-|       (ISO-TP Stack, CAN-Driver, NVS, GPIO, Work Q)   |
-+-------------------------------------------------------+
+```mermaid
+graph TD
+    A[Applikationsschicht <br> zephyr-uds-app / main.c] -- überschreibt __weak --> B[UDS Core Engine <br> zephyr-uds / Services & Timing]
+    B -- implementiert Callbacks --> A
+    B -- nutzt ISO-TP API --> C[Zephyr Kernel / OS <br> ISO-TP Stack, CAN-Driver, NVS, GPIO, Work Q]
+    C -- Hardware-Abstraktion --> D[NUCLEO-G474RE Hardware <br> STM32 FDCAN, Flash, GPIOs]
+```
 
 ---
 
