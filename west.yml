@@ -3,6 +3,10 @@ manifest:
     - name: zephyrproject-rtos
       url-base: https://github.com/zephyrproject-rtos
 
+    - name: borob-engineering
+      url-base: https://github.com/borob-engineering
+
+
   projects:
     - name: zephyr
       remote: zephyrproject-rtos
@@ -14,11 +18,11 @@ manifest:
           - hal_stm32
           - mcuboot
 
-    # Verknüpfung deines lokalen UDS-Modul-Ordners:
-    - name: uds_server
-      path: modules/lib/uds_server
-      url: /home/borob/zephyr_workspace/uds
+    - name: zephyr-uds
+      remote: borob-engineering
       revision: main
+      path: modules/lib/uds_server
+
 
   self:
-    path: uds_app_project
+    path: zephyr_uds_app
