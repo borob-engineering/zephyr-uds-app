@@ -25,4 +25,4 @@ manifest:
 
 
   self:
-    path: zephyr_uds_app
+    path: zephyr-uds-app

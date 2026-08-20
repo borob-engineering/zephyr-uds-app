@@ -63,7 +63,10 @@ CONFIG_REBOOT=y
 
 ## ⚡ Schnellstart: Bauen und Flashen
 
-1. West Workspace initialisieren (falls noch nicht geschehen) und sicherstellen, dass beide Repositories im Pfad liegen.
+1. West Workspace initialisieren
+    - west init --local zephyr-uds-app/
+    - west update
+
 2. Applikation für das NUCLEO-G474RE Board kompilieren und per integriertem ST-LINK/V3 flashen:
 
 west build -b nucleo_g474re path/to/zephyr-uds-app
