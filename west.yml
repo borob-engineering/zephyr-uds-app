@@ -17,7 +17,9 @@ manifest:
           - cmsis
           - hal_stm32
           - mcuboot
-
+          - mbedtls
+          - tf-psa-crypto
+          
     - name: zephyr-uds
       remote: borob-engineering
       revision: main
