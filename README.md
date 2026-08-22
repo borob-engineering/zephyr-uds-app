@@ -1,6 +1,6 @@
 # Zephyr UDS Application (zephyr-uds-app)
 
-Dieses Repository enthält eine Referenz- und Beispielapplikation für das [zephyr-uds Module](https://github.com), einen hardwareunabhängigen und generischen UDS-ISO-TP-Server (ISO 14229-1 / ISO 15765-2) für das Zephyr RTOS. 
+Dieses Repository enthält eine Referenz- und Beispielapplikation für das [zephyr-uds Module](https://github.com/borob-engineering/zephyr-uds), einen hardwareunabhängigen und generischen UDS-ISO-TP-Server (ISO 14229-1 / ISO 15765-2) für das Zephyr RTOS. 
 
 Die Applikation implementiert die vom Core-Modul geforderten anwendungsspezifischen Schnittstellen (`__weak` Fallbacks) und bindet diese an die tatsächliche Hardware- und Softwareperipherie von Zephyr an. Sie dient als voll funktionsfähiges Steuergerät (ECU) im CAN-Netzwerk, das Diagnoseanfragen verarbeitet, Hardwarezustände steuert und Firmware-Updates verarbeiten kann.
 

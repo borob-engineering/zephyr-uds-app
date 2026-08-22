@@ -1,0 +1,4 @@
+# zephyr-uds-app/app/boards/shields/waveshare_rs485_can/Kconfig.shield
+
+config SHIELD_WAVESHARE_RS485_CAN
+    def_bool $(shields_list_contains,waveshare_rs485_can)
