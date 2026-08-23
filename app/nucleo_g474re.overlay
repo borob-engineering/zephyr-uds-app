@@ -9,20 +9,21 @@
 /* don't attach shield waveshare_rs485_can to nucleo G474re -> use jumper wires to connect PA11 and PA12! */
 
 &pinctrl {
-    fdcan1_tx_pa12: fdcan1_tx_pa12 {
-        pinmux = <STM32_PINMUX('A', 12, AF9)>; /* PA12 im Alternate Function 9 Modus (FDCAN1_TX) */
+    /* FDCAN1 auf PB8 und PB9 legen (Alternate Function 9) */
+    fdcan1_rx_pb8: fdcan1_rx_pb8 {
+        pinmux = <STM32_PINMUX('B', 8, AF9)>; /* PB8 = FDCAN1_RX (D15) */
     };
 
-    fdcan1_rx_pa11: fdcan1_rx_pa11 {
-        pinmux = <STM32_PINMUX('A', 11, AF9)>; /* PA11 im Alternate Function 9 Modus (FDCAN1_RX) */
+    fdcan1_tx_pb9: fdcan1_tx_pb9 {
+        pinmux = <STM32_PINMUX('B', 9, AF9)>; /* PB9 = FDCAN1_TX (D14) */
     };
 };
 
-&fdcan1 {
+&fdcan1{
     status = "okay";
 
     /* Zuweisung der modifizierten Pins */
-    pinctrl-0 = <&fdcan1_tx_pa12 &fdcan1_rx_pa11>;
+    pinctrl-0 = <&fdcan1_tx_pb9 &fdcan1_rx_pb8>;
     pinctrl-names = "default";
 
     bus-speed = <500000>;
