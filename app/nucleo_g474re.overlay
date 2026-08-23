@@ -1,0 +1,38 @@
+
+/ {
+    chosen {
+        /* Weist dem zephyr-uds Modul den CAN-Controller zu */
+        zephyr,canbus = &fdcan1;
+    };
+};
+
+/* don't attach shield waveshare_rs485_can to nucleo G474re -> use jumper wires to connect PA11 and PA12! */
+
+&pinctrl {
+    fdcan1_tx_pa12: fdcan1_tx_pa12 {
+        pinmux = <STM32_PINMUX('A', 12, AF9)>; /* PA12 im Alternate Function 9 Modus (FDCAN1_TX) */
+    };
+
+    fdcan1_rx_pa11: fdcan1_rx_pa11 {
+        pinmux = <STM32_PINMUX('A', 11, AF9)>; /* PA11 im Alternate Function 9 Modus (FDCAN1_RX) */
+    };
+};
+
+&fdcan1 {
+    status = "okay";
+
+    /* Zuweisung der modifizierten Pins */
+    pinctrl-0 = <&fdcan1_tx_pa12 &fdcan1_rx_pa11>;
+    pinctrl-names = "default";
+
+    bus-speed = <500000>;
+
+    /* Falls Sie kein CAN-FD nutzen, deaktivieren Sie die höhere Datenrate.
+     * Sollten Sie CAN-FD nutzen wollen, aktivieren Sie diese Zeile: */
+    /* bus-speed-data = <2000000>; */
+
+    /* Optionale feine Bit-Timing-Einstellungen für das SN65HVD230 des Waveshare-Shields.
+       Der Zephyr-Treiber berechnet diese Werte anhand des internen Taktes (meist 150MHz oder 170MHz beim G4)
+       automatisch. Falls Sie Sample-Points manuell erzwingen müssen, nutzen Sie diese Eigenschaften: */
+    sample-point = <800>; /* 80.0% Sample Point (Standard für CANopen/Automotive) */
+};
