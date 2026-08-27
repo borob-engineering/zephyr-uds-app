@@ -65,7 +65,6 @@ int uds_app_clear_persistent_dtcs(struct nvs_fs *fs, uint32_t dtc_group)
 		return -EINVAL;
 	}
 
-	/* We currently clear all records when group 0xFFFFFF (All DTCs) is triggered */
 	if (dtc_group == 0xFFFFFF) {
 		for (i = 0; i < NVS_DTC_MAX_ENTRIES; i++) {
 			ret = nvs_delete(fs, NVS_DTC_START_ID + i);
@@ -104,9 +103,9 @@ int uds_app_get_freeze_frame(uint32_t dtc, uint8_t record_num, uint8_t *data_out
 		if (max_len < 3) {
 			return -ENOMEM;
 		}
-		data_out[0] = 0x09; /* Engine RPM MSB: 2500 RPM source value */
-		data_out[1] = 0xC4; /* Engine RPM LSB */
-		data_out[2] = 0x5A; /* Coolant Temperature: 90°C */
+		data_out[0] = 0x09;
+		data_out[1] = 0xC4;
+		data_out[2] = 0x5A;
 		*len_out = 3;
 		return 0;
 	}
@@ -281,7 +280,6 @@ int uds_app_routine_start(uint16_t routine_id, uint8_t *info_out)
 			buf_idx = 0;
 		}
 
-		/* Mark the downloaded dual-bank slot as pending for validation loop */
 		ret = boot_set_pending(0);
 		if (ret != 0) {
 			*info_out = 0x02;
@@ -300,6 +298,28 @@ int uds_app_routine_request_results(uint16_t routine_id, uint8_t *status_out, ui
 	if (routine_id == RID_VERIFY_FW) {
 		*status_out = 0x00;
 		*exit_info_out = 0x00;
+		return 0;
+	}
+	return -ENOENT;
+}
+
+/* --- NEU: ERWEITERUNG 5: READ SCALING DATA BY IDENTIFIER (Service 0x24) --- */
+int uds_app_read_scaling_data(uint16_t did, uint8_t *buf_out, size_t *len_out, size_t max_len)
+{
+	if (did == DID_ENGINE_RPM) {
+		if (max_len < 7) {
+			return -ENOMEM;
+		}
+		/* ISO 14229-1 linear scaling layout: y = (a * x) + b */
+		buf_out[0] = 0x01; /* ScalingByte: 0x01 means linear formula identifier */
+		buf_out[1] = 0x00; /* Coefficient 'a' Multiplier High Byte (value = 1) */
+		buf_out[2] = 0x01; /* Coefficient 'a' Multiplier Low Byte */
+		buf_out[3] = 0x00; /* Coefficient 'a' Divisor High Byte    (value = 1) */
+		buf_out[4] = 0x01; /* Coefficient 'a' Divisor Low Byte */
+		buf_out[5] = 0x00; /* Coefficient 'b' Offset High Byte     (value = 0) */
+		buf_out[6] = 0x00; /* Coefficient 'b' Offset Low Byte */
+		
+		*len_out = 7;
 		return 0;
 	}
 	return -ENOENT;
